@@ -27,7 +27,7 @@ void operator<<(Particle& p, const state& s) {
 template <class state>
 class Particle : Measurement<state> {
 public:
-  double weight;
+  double weight = 1;
 };
 
 

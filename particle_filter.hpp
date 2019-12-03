@@ -19,8 +19,17 @@ private:
   Measurement<mstate> measurement_;
 
 public:
-  ParticleFilter(const WorldModel& world, rng_type& r)
-    : world_(world), rng_(r) {}
+  ParticleFilter(const WorldModel& world, rng_type& r, size_t particle_count=65)
+    : world_(world), rng_(r) {
+    particles_.reserve(particle_count);
+    for (size_t i  = 0; i < particle_count; i++) {
+      Particle<pstate> p();
+      world_.init_particle(p);
+      particles_.push_back(p);
+    }
+    normalize();
+  }
+
   virtual void resample();
   virtual void jitter();
   void update(mstate&);
