@@ -8,16 +8,14 @@
 
 
 
-
-
 template <class pstate, class mstate, class rng_type>
 class ParticleFilter {
-private:
+protected:
   std::vector<Particle<pstate> > particles_;
   rng_type& rng_;
   const WorldModel& world_;
   Measurement<mstate> measurement_;
-
+  void normalize();
 public:
   ParticleFilter(const WorldModel& world, rng_type& r, size_t particle_count=65)
     : world_(world), rng_(r) {
@@ -29,16 +27,16 @@ public:
     }
     normalize();
   }
-
-  virtual void resample();
-  virtual void jitter();
+private:
+  virtual void resample() = 0;
+public:
   void update(mstate&);
-  virtual state predict();
-  void normalize();
+  virtual state predict() = 0;
 };
 
 
-void ParticleFilter::normalize() {
+template <class pstate, class mstate, class rng_type>
+void ParticleFilter<pstate, mstate, rng_type>::normalize() {
   double total_weight = 0;
   for (size_t i = 0; i < particles_.size(); i++) {
     total_weight += particles_.at(i).weight;
@@ -49,13 +47,14 @@ void ParticleFilter::normalize() {
 }
 
 
-void ParticleFilter::update(mstate& s) {
+template <class pstate, class mstate, class rng_type>
+void ParticleFilter<pstate, mstate, rng_type>::update(mstate& s) {
   measurement_ << s;
   resample();
-  for (size_t i = 0; i < particles_.size(); i++) {
-    world_.move_particle(measurement_, particles_.at(i));
-    world_.jitter(particles_.at(i), rng_);
-    world_.probability(measurement_, particles_.at(i));
+  for (Particle<pstate>& p : particles_) {
+    world_.move_particle(measurement_, p);
+    world_.jitter(p, rng_);
+    world_.probability(measurement_, p);
   }
   normalize();
 }

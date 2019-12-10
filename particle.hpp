@@ -12,9 +12,10 @@ private:
 
 public:
   Particle(size_t s) : size_(s) {}
-
+  state& last() { return states_.back(); }
   friend void operator<<(Particle&, const state&);
 };
+
 
 void operator<<(Particle& p, const state& s) {
   p.states_.push_front(s);
