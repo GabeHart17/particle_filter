@@ -11,13 +11,16 @@ private:
   std::deque<state> states_();
 
 public:
-  Particle(size_t s) : size_(s) {}
+  Measurement(size_t s) : size_(s) {}
   state& last() { return states_.back(); }
-  friend void operator<<(Particle&, const state&);
+  const state& at(size_t index) {
+    return states_.at(states_.size() - index - 1);
+  }
+  friend void operator<<(Measurement&, const state&);
 };
 
 
-void operator<<(Particle& p, const state& s) {
+void operator<<(Measurement& p, const state& s) {
   p.states_.push_front(s);
   if (p.states_.size() > p.size_) {
     p.states_.pop_back();
@@ -28,7 +31,11 @@ void operator<<(Particle& p, const state& s) {
 template <class state>
 class Particle : Measurement<state> {
 public:
+  Particle(size_t s) : Measurement(s) {}
   double weight = 1;
+  bool operator<(const Particle& other) const {
+    return weight < other.weight;
+  }
 };
 
 
