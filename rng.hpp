@@ -9,6 +9,9 @@ public:
   double operator()(double a, double b) {
     return random(a, b);
   }
+  double operator()() {
+    return random(0, 1);
+  }
 }
 
 

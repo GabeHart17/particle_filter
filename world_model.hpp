@@ -7,17 +7,16 @@
 
 template <class mstate, class pstate>
 class WorldModel {
+public:
   virtual double probability(const Measurement<mstate>&, Particle<pstate>&)
     const { return 0; }
 
   virtual void move_particle(const Measurement<mstate>&, Particle<pstate>&)
     const {}
 
-  template <class rng_type>
-  virtual void init_particle(Particle<pstate>&, rng_type& rng) {}
+  virtual void init_particle(Particle<pstate>&, rng&) {}
 
-  template <class rng_type>
-  virtual void jitter(Particle<pstate>&, rng_type& rng) {}
+  virtual void jitter(Particle<pstate>&, rng&) {}
 
 };
 

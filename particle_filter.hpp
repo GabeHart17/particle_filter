@@ -1,6 +1,7 @@
 #include <vector>
 #include "particle.hpp"
 #include "world_model.hpp"
+#include "rng.hpp"
 
 
 #ifndef PARTICLE_FILTER_HEADER
@@ -8,16 +9,16 @@
 
 
 
-template <class pstate, class mstate, class rng_type>
+template <class pstate, class mstate>
 class ParticleFilter {
 protected:
   std::vector<Particle<pstate> > particles_;
-  rng_type& rng_;
+  rng& rng_;
   const WorldModel& world_;
   Measurement<mstate> measurement_;
   void normalize();
 public:
-  ParticleFilter(const WorldModel& world, rng_type& r, size_t particle_count=65)
+  ParticleFilter(const WorldModel& world, rng& r, size_t particle_count=65)
     : world_(world), rng_(r) {
     particles_.reserve(particle_count);
     for (size_t i  = 0; i < particle_count; i++) {
@@ -35,8 +36,8 @@ public:
 };
 
 
-template <class pstate, class mstate, class rng_type>
-void ParticleFilter<pstate, mstate, rng_type>::normalize() {
+template <class pstate, class mstate>
+void ParticleFilter<pstate, mstate>::normalize() {
   double total_weight = 0;
   for (size_t i = 0; i < particles_.size(); i++) {
     total_weight += particles_.at(i).weight;
@@ -47,8 +48,8 @@ void ParticleFilter<pstate, mstate, rng_type>::normalize() {
 }
 
 
-template <class pstate, class mstate, class rng_type>
-void ParticleFilter<pstate, mstate, rng_type>::update(mstate& s) {
+template <class pstate, class mstate>
+void ParticleFilter<pstate, mstate>::update(mstate& s) {
   measurement_ << s;
   resample();
   for (Particle<pstate>& p : particles_) {

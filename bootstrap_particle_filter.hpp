@@ -1,5 +1,6 @@
 #include "particle.hpp"
 #include "particle_filter.hpp"
+#include "bootstrap_particle_filter.hpp"
 #include <algorithm>
 
 
@@ -7,19 +8,19 @@
 #define BOOTSTRAP_PARTICLE_FILTER_HEADER
 
 
-template <class pstate, class mstate, class rng_type>
+template <class pstate, class mstate>
 class BootstrapParticleFilter : public ParticleFilter {
 private:
   virtual void resample();
 public:
-  BootstrapParticleFilter(const WorldModel& world, rng_type& r,
+  BootstrapParticleFilter(const WorldModel& world, rng& r,
     size_t particle_count=65) : ParticleFilter(world, r, particle_count) {}
   virtual pstate predict();
 };
 
 
-template <class pstate, class mstate, class rng_type>
-void BootstrapParticleFilter<pstate, mstate, rng_type>::resample() {
+template <class pstate, class mstate>
+void BootstrapParticleFilter<pstate, mstate>::resample() {
   std::sort(particles_.begin(), particles_.end());  // sorting may be unnecessary
   std::vector<Particle<pstate> > new_particles();
   new_particles.reserve(particles_.size());
@@ -41,8 +42,8 @@ void BootstrapParticleFilter<pstate, mstate, rng_type>::resample() {
 }
 
 
-template <class pstate, class mstate, class rng_type>
-pstate BootstrapParticleFilter<pstate, mstate, rng_type>::predict() {
+template <class pstate, class mstate>
+pstate BootstrapParticleFilter<pstate, mstate>::predict() {
   pstate sum();
   for (Particle<pstate>& p : particles_) {
     sum = sum + p.last();
