@@ -45,7 +45,7 @@ template <class pstate, class mstate, class rng_type>
 pstate BootstrapParticleFilter<pstate, mstate, rng_type>::predict() {
   pstate sum();
   for (Particle<pstate>& p : particles_) {
-    sum = sum + p.last() * p.weight;
+    sum = sum + p.last();
   }
   return sum * (1.0 / particles_.size());
 }
