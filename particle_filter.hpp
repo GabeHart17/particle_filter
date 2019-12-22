@@ -12,11 +12,12 @@ class ParticleFilter {
 protected:
   std::vector<Particle<pstate> > particles_;
   rng& rng_;
-  const WorldModel& world_;
+  const WorldModel<pstate, mstate>& world_;
   Measurement<mstate> measurement_;
   void normalize();
 public:
-  ParticleFilter(const WorldModel& world, rng& r, size_t particle_count=65)
+  ParticleFilter(const WorldModel<pstate, mstate>& world,
+                 rng& r, size_t particle_count=65)
     : world_(world), rng_(r) {
     particles_.reserve(particle_count);
     for (size_t i  = 0; i < particle_count; i++) {
@@ -30,7 +31,7 @@ private:
   virtual void resample() = 0;
 public:
   void update(mstate&);
-  virtual state predict() = 0;
+  virtual pstate predict() = 0;
 };
 
 

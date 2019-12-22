@@ -8,12 +8,13 @@
 
 
 template <class pstate, class mstate>
-class BootstrapParticleFilter : public ParticleFilter {
+class BootstrapParticleFilter : public ParticleFilter<pstate, mstate> {
 private:
   virtual void resample();
 public:
-  BootstrapParticleFilter(const WorldModel& world, rng& r,
-    size_t particle_count=65) : ParticleFilter(world, r, particle_count) {}
+  BootstrapParticleFilter(const WorldModel<pstate, mstate>& world, rng& r,
+    size_t particle_count=65) :
+    ParticleFilter<pstate, mstate>(world, r, particle_count) {}
   virtual pstate predict();
 };
 

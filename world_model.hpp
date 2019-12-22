@@ -2,6 +2,7 @@
 #define WORLD_MODEL_HEADER
 
 #include "particle.hpp"
+#include "rng.hpp"
 
 
 template <class mstate, class pstate>

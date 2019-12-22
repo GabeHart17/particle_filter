@@ -19,14 +19,17 @@ public:
 class MersenneTwisterRNG : public rng {
 private:
   unsigned int seed_ = 1;
-  std::mt19937 mtrng(seed_);
+  std::mt19937 mtrng_;
 public:
-  MersenneTwisterRNG() {}
-  double random(double a, double b) {
-    unsigned int raw = mtrng();
-    return a + ((raw - mtrng.min()) * ((b - a) / (mtrng.max() - mtrng.min())));
+  MersenneTwisterRNG() {
+    mtrng_.seed(seed_);
   }
-}
+  double random(double a, double b) {
+    unsigned int raw = mtrng_();
+    return a + ((raw - mtrng_.min()) * ((b - a) /
+           (mtrng_.max() - mtrng_.min())));
+  }
+};
 
 
 #endif
