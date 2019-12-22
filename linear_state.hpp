@@ -1,7 +1,7 @@
-#include <array>
-
 #ifndef LINEAR_STATE_HEADER
 #define LINEAR_STATE_HEADER
+
+#include <array>
 
 
 template <int SIZE>
@@ -9,7 +9,7 @@ class LinearState {
 public:
   std::array<double, SIZE> state;
 
-  LinearState(){
+  LinearState() {
     state.fill(0.0);
   }
 

@@ -1,12 +1,10 @@
+#ifndef PARTICLE_FILTER_HEADER
+#define PARTICLE_FILTER_HEADER
+
 #include <vector>
 #include "particle.hpp"
 #include "world_model.hpp"
 #include "rng.hpp"
-
-
-#ifndef PARTICLE_FILTER_HEADER
-#define PARTICLE_FILTER_HEADER
-
 
 
 template <class pstate, class mstate>

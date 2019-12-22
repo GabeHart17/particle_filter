@@ -1,8 +1,7 @@
-#include "particle.hpp"
-
-
 #ifndef WORLD_MODEL_HEADER
 #define WORLD_MODEL_HEADER
+
+#include "particle.hpp"
 
 
 template <class mstate, class pstate>

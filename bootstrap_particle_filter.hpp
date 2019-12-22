@@ -1,11 +1,10 @@
+#ifndef BOOTSTRAP_PARTICLE_FILTER_HEADER
+#define BOOTSTRAP_PARTICLE_FILTER_HEADER
+
 #include "particle.hpp"
 #include "particle_filter.hpp"
 #include "bootstrap_particle_filter.hpp"
 #include <algorithm>
-
-
-#ifndef BOOTSTRAP_PARTICLE_FILTER_HEADER
-#define BOOTSTRAP_PARTICLE_FILTER_HEADER
 
 
 template <class pstate, class mstate>
@@ -44,7 +43,7 @@ void BootstrapParticleFilter<pstate, mstate>::resample() {
 
 template <class pstate, class mstate>
 pstate BootstrapParticleFilter<pstate, mstate>::predict() {
-  pstate sum();
+  pstate sum;
   for (Particle<pstate>& p : particles_) {
     sum = sum + p.last();
   }
