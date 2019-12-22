@@ -16,14 +16,15 @@ public:
   const state& at(size_t index) {
     return states_.at(states_.size() - index - 1);
   }
-  friend void operator<<(Measurement<state>&, const state&);
+  void push(const state&);
 };
 
 
-void operator<<(Measurement<state>& p, const state& s) {
-  p.states_.push_front(s);
-  if (p.states_.size() > p.size_) {
-    p.states_.pop_back();
+template <class state>
+void Measurement<state>::push(const state& s) {
+  states_.push_front(s);
+  if (states_.size() > size_) {
+    states_.pop_back();
   }
 }
 
@@ -31,7 +32,7 @@ void operator<<(Measurement<state>& p, const state& s) {
 template <class state>
 class Particle : Measurement<state> {
 public:
-  Particle(size_t s) : Measurement(s) {}
+  Particle(size_t s) : Measurement<state>(s) {}
   double weight = 1;
   bool operator<(const Particle& other) const {
     return weight < other.weight;

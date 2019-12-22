@@ -48,7 +48,7 @@ void ParticleFilter<pstate, mstate>::normalize() {
 
 template <class pstate, class mstate>
 void ParticleFilter<pstate, mstate>::update(mstate& s) {
-  measurement_ << s;
+  measurement_.push(s);
   resample();
   for (Particle<pstate>& p : particles_) {
     world_.move_particle(measurement_, p);
