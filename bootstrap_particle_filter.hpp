@@ -9,6 +9,8 @@
 
 template <class pstate, class mstate>
 class BootstrapParticleFilter : public ParticleFilter<pstate, mstate> {
+  using ParticleFilter<pstate, mstate>::particles_;
+  using ParticleFilter<pstate, mstate>::rng_;
 private:
   virtual void resample();
 public:
@@ -28,9 +30,9 @@ void BootstrapParticleFilter<pstate, mstate>::resample() {
   double a = 0;
   for (size_t i = 0; i < particles_.size(); i++) {
     // replace with correct method name for rng call
-    r = rng.random(0, 1);
+    r = rng_.random(0, 1);
     a = 0;
-    for (Particle j : particles_) {
+    for (Particle<pstate> j : particles_) {
       a += j.weight;
       if (a >= r) {
         new_particles.push_back(j);
