@@ -9,7 +9,7 @@ template <class mstate, class pstate>
 class WorldModel {
 public:
   virtual double probability(const Measurement<mstate>&, Particle<pstate>&)
-    const { return 0; }
+    { return 0; }
 
   virtual void move_particle(const Measurement<mstate>&, Particle<pstate>&)
     const {}
