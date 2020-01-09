@@ -73,9 +73,9 @@ void WorldSimple::move_particle(const Measurement<LinearState<3> >& m,
 }
 
 void WorldSimple::init_particle(Particle<LinearState<1> >& p, rng& r) {
-  LinearState<1> ls();
-  ls.state[0] = r();
-  p << ls;
+  LinearState<1> ls;
+  ls[0] = r();
+  p.push(ls);
 }
 
 void WorldSimple::jitter(Particle<LinearState<1> >& p, rng& r) {

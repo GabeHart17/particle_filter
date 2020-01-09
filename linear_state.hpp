@@ -14,7 +14,7 @@ public:
     state.fill(0.0);
   }
 
-  double operator[](const size_t& i) {
+  double& operator[](const size_t& i) {
     return state[i];
   }
 
