@@ -6,11 +6,16 @@
 
 template <int SIZE>
 class LinearState {
-public:
+private:
   std::array<double, SIZE> state;
 
+public:
   LinearState() {
     state.fill(0.0);
+  }
+
+  double operator[](const size_t& i) {
+    return state[i];
   }
 
   LinearState operator+(const LinearState<SIZE>&) const;
@@ -20,7 +25,7 @@ public:
 
 template <int SIZE>
 LinearState<SIZE> LinearState<SIZE>::operator+(const LinearState<SIZE>& other) const {
-  LinearState<SIZE> l();
+  LinearState<SIZE> l;
   for (size_t i = 0; i < SIZE; i++) {
     l.state[i] = state[i] + other.state[i];
   }
@@ -29,7 +34,7 @@ LinearState<SIZE> LinearState<SIZE>::operator+(const LinearState<SIZE>& other) c
 
 template <int SIZE>
 LinearState<SIZE> LinearState<SIZE>::operator*(const double& other) const {
-  LinearState<SIZE> l();
+  LinearState<SIZE> l;
   for (size_t i = 0; i < SIZE; i++) {
     l.state[i] = state[i] * other;
   }
@@ -38,7 +43,7 @@ LinearState<SIZE> LinearState<SIZE>::operator*(const double& other) const {
 
 template <int SIZE>
 LinearState<SIZE> operator*(const double& d, LinearState<SIZE>& l) {
-  LinearState<SIZE> res();
+  LinearState<SIZE> res;
   for (size_t i = 0; i < SIZE; i++) {
     res.state[i] = l[i] * d;
   }

@@ -21,7 +21,7 @@ Particle states: {position}
 */
 
 
-class WorldSimple : public WorldModel<LinearState<1>, LinearState<3> >{
+class WorldSimple : public WorldModel<LinearState<3>, LinearState<1> >{
 private:
   std::vector<double> beacons_;
   double jitter_variance_;
@@ -32,6 +32,10 @@ private:
 
 public:
   WorldSimple(const std::vector<double>&, double, double);
+  double probability(const Measurement<LinearState<3> >&, Particle<LinearState<1> >&) const override;
+  void move_particle(const Measurement<LinearState<3> >&, Particle<LinearState<1> >&) const override;
+  void init_particle(Particle<LinearState<1> >&, rng&) override;
+  void jitter(Particle<LinearState<1> >&, rng&) override;
 };
 
 
@@ -44,19 +48,21 @@ WorldSimple::WorldSimple(const std::vector<double>& b, double jv, double mv) {
   std::sort(beacons_.begin(), beacons_.end());
 }
 
-double WorldSimple::probability(const Measurement<LinearState<3> >& m,
+
+
+double WorldSimple::probability (const Measurement<LinearState<3> >& m,
   Particle<LinearState<1> >& p) const {
   double b_lower, b_upper;
   for (size_t i = 1; i < beacons_.size(); i++) {
-    if (beacons[i] >= p.last()[0]) {
+    if (beacons_[i] >= p.last()[0]) {
       b_lower = beacons_[i - 1];
       b_upper = beacons_[i];
       break;
     }
   }
-  return normal_pdf_((Measurement.last()[0] - b_lower) /
+  return normal_pdf_((m.last()[0] - b_lower) /
          sqrt(measurement_variance_)) *
-         normal_pdf_((Measurement.last()[1] - b_upper) /
+         normal_pdf_((m.last()[1] - b_upper) /
          sqrt(measurement_variance_));
 }
 

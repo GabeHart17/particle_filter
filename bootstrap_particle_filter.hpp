@@ -11,6 +11,7 @@ template <class pstate, class mstate>
 class BootstrapParticleFilter : public ParticleFilter<pstate, mstate> {
   using ParticleFilter<pstate, mstate>::particles_;
   using ParticleFilter<pstate, mstate>::rng_;
+  using ParticleFilter<pstate, mstate>::world_;
 private:
   virtual void resample();
 public:

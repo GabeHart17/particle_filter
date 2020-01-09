@@ -12,7 +12,7 @@ private:
 
 public:
   Measurement(size_t s) : size_(s) {}
-  state& last() { return states_.back(); }
+  state& last() const { return states_.back(); }
   const state& at(size_t index) {
     return states_.at(states_.size() - index - 1);
   }
@@ -30,7 +30,7 @@ void Measurement<state>::push(const state& s) {
 
 
 template <class state>
-class Particle : Measurement<state> {
+class Particle : public Measurement<state> {
 public:
   Particle(size_t s) : Measurement<state>(s) {}
   double weight = 1;
